@@ -1,0 +1,7 @@
+com\personal\tcp\server\ClientHandler.class
+com\personal\tcp\Client.class
+com\personal\tcp\server\Methods.class
+com\personal\tcp\server\LogHandler.class
+com\personal\tcp\objects\Data.class
+com\personal\tcp\objects\Message.class
+com\personal\tcp\server\Server.class
