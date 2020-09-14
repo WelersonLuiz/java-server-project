@@ -8,7 +8,6 @@ import org.apache.log4j.Logger;
 
 public class TextMessageServiceImpl implements CoreService {
 
-    protected static final Logger LOG = LogManager.getLogger(TextMessageServiceImpl.class);
     private final MessageRepository repository;
 
     public TextMessageServiceImpl() {
@@ -17,16 +16,13 @@ public class TextMessageServiceImpl implements CoreService {
 
     @Override
     public String process(String input) {
-        System.out.println("TextMessageService.process() - Processing Message... ");
+        System.out.println("TextMessageServiceImpl.process() - Processing Message... ");
         String response = "Gerar Resposta";
 
-        LOG.info("Mensagem recebida - " + input);
-
-        input = input.replaceAll(" ", "");
         TextMessage message = new TextMessage(input);
         repository.saveTextMessage(message);
 
-        System.out.println("TextMessageService.process() - Message processed. Response: " + response);
+        System.out.println("TextMessageServiceImpl.process() - Message processed. Response: " + response);
         return response;
     }
 
