@@ -15,13 +15,9 @@ public class Client {
         Socket socket = new Socket(SERVER_IP, SERVER_PORT);
 
         BufferedReader input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
         PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-        System.out.println("> ");
-        String command = keyboard.readLine();
-
-        out.println(command);
+        out.println("0A 15 A1 20 7A C3 0C 4D 69 63 68 65 6C 20 52 65 69 70 73 16 0D");
 
         String serverResponse = input.readLine();
         System.out.println("Server Response: " + serverResponse);

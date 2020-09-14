@@ -1,9 +1,10 @@
 package com.personal.tcp.repository;
 
+import com.personal.tcp.entities.message.type.TextMessage;
+import com.personal.tcp.entities.message.type.UserMessage;
 import com.personal.tcp.util.HibernateUtil;
 import com.personal.tcp.entities.message.Message;
-import com.personal.tcp.entities.message.types.UserInfo;
-import com.personal.tcp.entities.message.types.User;
+import com.personal.tcp.entities.message.type.UserInfoMessage;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
@@ -12,19 +13,18 @@ import org.hibernate.Transaction;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataRepository {
+public class MessageRepository {
 
-    public DataRepository() {
+    public MessageRepository() {
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
     }
 
-    public void saveData(Message message){
+    public void saveTextMessage(TextMessage message){
         Transaction transaction = null;
-        User info = (User) message;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             transaction = session.beginTransaction();
-            session.save(info.getData());
+            session.save(message);
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) {
@@ -34,17 +34,19 @@ public class DataRepository {
         }
     }
 
-    public List<UserInfo> findAllData(){
-        List<UserInfo> listData = new ArrayList<>();
+    public void saveUserInfoMessage(UserInfoMessage message){
+        Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
-            listData = session.createQuery("from Data", UserInfo.class).getResultList();
-            listData.forEach(d -> System.out.println(d.getNome()));
+            transaction = session.beginTransaction();
+            session.save(message);
+            transaction.commit();
         } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
-
-        return listData;
     }
 
 }

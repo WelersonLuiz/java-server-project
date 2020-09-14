@@ -8,21 +8,23 @@ import com.personal.tcp.service.UserInfoService;
 
 public class MessageServiceFactory {
 
-    public CoreService criarProcessador(MessageTypeEnum typeMessage){
+    public CoreService createService(MessageTypeEnum typeMessage){
+        CoreService service = null;
 
         if (typeMessage == MessageTypeEnum.A1){
-            return new TextMessageService();
+            service = new TextMessageService();
         }
 
         if (typeMessage == MessageTypeEnum.A2){
-            return new UserInfoService();
+            service = new UserInfoService();
         }
 
         if (typeMessage == MessageTypeEnum.A3){
-            return new DateService();
+            service = new DateService();
         }
 
-        return null;
+        System.out.println("MessageServiceFactory.createService() - Type of service created: " + (service != null ? service.getClass() : null));
+        return service;
     }
 
 }

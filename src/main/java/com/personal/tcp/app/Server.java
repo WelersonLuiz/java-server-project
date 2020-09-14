@@ -20,6 +20,7 @@ public class Server {
 
     public void run() {
 
+
         try {
             int serverPort = 4242;
             ServerSocket serverSocket = new ServerSocket(serverPort);
@@ -38,6 +39,7 @@ public class Server {
         } catch(IOException ex) {
             ex.printStackTrace();
         }
+
     }
 
 }
