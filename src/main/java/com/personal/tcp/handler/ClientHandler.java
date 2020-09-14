@@ -5,7 +5,6 @@ import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.service.impl.UserInfoServiceImpl;
 import com.personal.tcp.util.HexConverter;
-import com.personal.tcp.util.Validator;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,16 +14,16 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
-    private final Socket client;
     private final InputStream in;
-    private final PrintWriter out;
+    private final OutputStream out;
+    private final PrintWriter pw;
     private final MessageServiceFactory factory;
     private static final Logger LOG = LogManager.getLogger(UserInfoServiceImpl.class);
 
     public ClientHandler(Socket client) throws IOException {
-        this.client = client;
         this.in = client.getInputStream();
-        this.out = new PrintWriter(client.getOutputStream(), true);
+        this.out = client.getOutputStream();
+        this.pw = new PrintWriter(client.getOutputStream(), true);
         this.factory = new MessageServiceFactory();
 
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
@@ -36,22 +35,22 @@ public class ClientHandler implements Runnable {
         System.out.println("ClientHandler.run() - Starting processing of message ...");
 
         try {
-            byte[] byteArray = HexConverter.getByteArray(in);
+            byte[] input = HexConverter.getByteArrayFromInput(in);
+            LOG.info("ClientHandler.run() - Message received: " + HexConverter.getHexFromByteArray(input));
 
-            MessageTypeEnum type = MessageTypeEnum.fromByte(byteArray[2]);
-            System.out.println("ClientHandler.run() - MessageType - " + type);
+            MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
+            System.out.println("ClientHandler.run() - MessageType: " + type);
 
             CoreService service = factory.createService(type);
 
-            String input = HexConverter.getHexMessage(byteArray);
-            LOG.info("Mensagem recebida - " + input);
+            byte[] response = service.process(input);
 
-            input = input.replaceAll(" ", "");
-            String response = service.process(input);
+            System.out.println("ClientHandler.run() - Response: " + HexConverter.getAsciiFromByteArray(response));
 
-            out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            pw.close();
         }
 
         System.out.println("ClientHandler.run() - Processing of message finished!");

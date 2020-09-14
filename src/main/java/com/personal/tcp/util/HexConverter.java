@@ -6,30 +6,7 @@ import java.io.InputStream;
 
 public class HexConverter {
 
-    public static String hexToAscii(String hexStr) {
-        StringBuilder output = new StringBuilder("");
-
-        for (int i = 0; i < hexStr.length(); i += 2) {
-            String str = hexStr.substring(i, i + 2);
-            output.append((char) Integer.parseInt(str, 16));
-        }
-
-        return output.toString();
-    }
-
-    public static String getHexMessage(byte[] bytes) {
-        System.out.println("Validator.validateMessage() - Validating message recieved... ");
-
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : bytes) {
-            hexString.append(String.format("%02X ", b));
-        }
-
-        System.out.println("Validator.validateMessage() - Hex text received: " + hexString);
-        return hexString.toString();
-    }
-
-    public static byte[] getByteArray(InputStream in) throws IOException {
+    public static byte[] getByteArrayFromInput(InputStream in) throws IOException {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
         byte[] read = new byte[1];
@@ -40,6 +17,32 @@ public class HexConverter {
         }
 
         return baos.toByteArray();
+    }
+
+    public static String getHexFromByteArray(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+
+        for (byte b : bytes) {
+            hexString.append(String.format("%02X ", b));
+        }
+
+        return hexString.toString();
+    }
+
+    public static String getAsciiFromHex(String hexStr) {
+        StringBuilder output = new StringBuilder("");
+        hexStr = hexStr.replaceAll(" ", "");
+
+        for (int i = 0; i < hexStr.length(); i += 2) {
+            String str = hexStr.substring(i, i + 2);
+            output.append((char) Integer.parseInt(str, 16));
+        }
+
+        return output.toString();
+    }
+
+    public static String getAsciiFromByteArray(byte[] array){
+        return getAsciiFromHex(getHexFromByteArray(array));
     }
 
 }

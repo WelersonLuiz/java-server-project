@@ -15,7 +15,7 @@ public class UserInfoServiceImpl implements CoreService {
     }
 
     @Override
-    public String process(String input) {
+    public byte[] process(byte[] input) {
         System.out.println("UserInfoServiceImpl.process() - Processing Message... ");
         String response = "Gerar Resposta";
 
@@ -23,7 +23,7 @@ public class UserInfoServiceImpl implements CoreService {
         repository.saveUserInfoMessage(message.getData());
 
         System.out.println("UserInfoServiceImpl.process() - Response message: " + response);
-        return response;
+        return input;
     }
 
 }

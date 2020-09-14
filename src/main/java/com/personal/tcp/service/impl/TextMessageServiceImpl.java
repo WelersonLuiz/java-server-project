@@ -15,7 +15,7 @@ public class TextMessageServiceImpl implements CoreService {
     }
 
     @Override
-    public String process(String input) {
+    public byte[] process(byte[] input) {
         System.out.println("TextMessageServiceImpl.process() - Processing Message... ");
         String response = "Gerar Resposta";
 
@@ -23,7 +23,7 @@ public class TextMessageServiceImpl implements CoreService {
         repository.saveTextMessage(message);
 
         System.out.println("TextMessageServiceImpl.process() - Message processed. Response: " + response);
-        return response;
+        return input;
     }
 
 }

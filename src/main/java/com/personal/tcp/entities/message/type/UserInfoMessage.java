@@ -3,6 +3,7 @@ package com.personal.tcp.entities.message.type;
 import com.personal.tcp.util.HexConverter;
 
 import javax.persistence.*;
+import java.util.Arrays;
 
 @Entity
 @Table(name = "user_data")
@@ -27,17 +28,15 @@ public class UserInfoMessage {
     @Column(name = "name")
     private String name;
 
-    public UserInfoMessage() {
-    }
+    public UserInfoMessage(byte[] userInfo) {
+        this.age        = Byte.toUnsignedInt(userInfo[0]);
+        this.weigth     = Byte.toUnsignedInt(userInfo[1]);
+        this.heigth     = Byte.toUnsignedInt(userInfo[2]);
+        this.nameSize   = Byte.toUnsignedInt(userInfo[3]);
 
-    public UserInfoMessage(String data) {
-        this.age = Integer.parseInt(data.substring(0,2),16);
-        this.weigth = Integer.parseInt(data.substring(2,4),16);
-        this.heigth = Integer.parseInt(data.substring(4,6),16);
-        this.nameSize = Integer.parseInt(data.substring(6,8),16);
-        this.name = HexConverter.hexToAscii(data.substring(8));
+        byte[] name = Arrays.copyOfRange(userInfo, 4, userInfo.length-1);
+        this.name       = HexConverter.getAsciiFromByteArray(name);
     }
-
 
     public Integer getAge() {
         return age;

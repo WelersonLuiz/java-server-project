@@ -3,6 +3,7 @@ import com.personal.tcp.entities.message.Message;
 import com.personal.tcp.util.HexConverter;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Date;
 
 @Entity
@@ -19,9 +20,11 @@ public class TextMessage extends Message {
     @Column(name = "date_time")
     private Date dateTime;
 
-    public TextMessage(String input) {
+    public TextMessage(byte[] input) {
         super(input);
-        this.textMessage = HexConverter.hexToAscii(input.substring(6, input.length()-4));
+
+        byte[] message = Arrays.copyOfRange(input, 3, input.length-2);
+        this.textMessage = HexConverter.getAsciiFromByteArray(message);
         this.dateTime = new Date();
     }
 

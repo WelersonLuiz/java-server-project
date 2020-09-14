@@ -2,6 +2,8 @@ package com.personal.tcp.entities.message;
 
 import com.google.gson.GsonBuilder;
 
+import javax.xml.bind.DatatypeConverter;
+
 public class Message {
 
     private String init;
@@ -13,12 +15,12 @@ public class Message {
     public Message() {
     }
 
-    public Message(String input) {
-        this.init   = input.substring(0,2);
-        this.bytes  = Integer.parseInt(input.substring(2,4), 16);
-        this.frame  = input.substring(4,6);
-        this.crc    = input.substring(input.length()-4,input.length()-2);
-        this.end    = input.substring(input.length()-2);
+    public Message(byte[] input) {
+        this.init   = DatatypeConverter.printByte(input[0]);
+        this.bytes  = Byte.toUnsignedInt(input[1]);
+        this.frame  = DatatypeConverter.printByte(input[2]);
+        this.crc    = DatatypeConverter.printByte(input[input.length-2]);
+        this.end    = DatatypeConverter.printByte(input[input.length-1]);
     }
 
     public String getInit() {

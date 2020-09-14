@@ -6,8 +6,10 @@ public class DateMessage extends Message {
 
     private String timezone;
 
-    public DateMessage(String input) {
+    public DateMessage(byte[] input) {
         super(input);
+
+
     }
 
 }

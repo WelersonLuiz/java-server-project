@@ -2,13 +2,17 @@ package com.personal.tcp.entities.message.type;
 
 import com.personal.tcp.entities.message.Message;
 
+import java.util.Arrays;
+
 public class UserMessage extends Message {
 
     private UserInfoMessage userInfoMessage;
 
-    public UserMessage(String input) {
+    public UserMessage(byte[] input) {
         super(input);
-        this.userInfoMessage = new UserInfoMessage(input.substring(6, input.length()-4));
+
+        byte[] userInfo = Arrays.copyOfRange(input, 3, input.length-2);
+        this.userInfoMessage = new UserInfoMessage(userInfo);
     }
 
     public UserInfoMessage getData() {
