@@ -17,10 +17,8 @@ public class HexConverter {
         return output.toString();
     }
 
-    public static String getHexMessage(InputStream in) throws IOException {
+    public static String getHexMessage(byte[] bytes) {
         System.out.println("Validator.validateMessage() - Validating message recieved... ");
-
-        byte[] bytes = getByteArray(in);
 
         StringBuilder hexString = new StringBuilder();
         for (byte b : bytes) {

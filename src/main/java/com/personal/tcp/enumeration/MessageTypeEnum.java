@@ -11,4 +11,8 @@ public enum MessageTypeEnum {
         return MessageTypeEnum.valueOf(name.trim().toUpperCase());
     }
 
+    public static MessageTypeEnum fromByte(byte value) {
+        return MessageTypeEnum.valueOf(String.format("%02X ", value).trim().toUpperCase());
+    }
+
 }

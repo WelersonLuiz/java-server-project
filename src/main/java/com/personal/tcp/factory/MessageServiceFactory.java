@@ -23,7 +23,6 @@ public class MessageServiceFactory {
             service = new DateService();
         }
 
-        System.out.println("MessageServiceFactory.createService() - Type of service created: " + (service != null ? service.getClass() : null));
         return service;
     }
 

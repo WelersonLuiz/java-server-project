@@ -30,17 +30,13 @@ public class ClientHandler implements Runnable {
         try {
             byte[] byteArray = HexConverter.getByteArray(in);
 
-            String stringType = String.format("%02X ", byteArray[2]);
-            MessageTypeEnum type = MessageTypeEnum.fromString(stringType);
+            MessageTypeEnum type = MessageTypeEnum.fromByte(byteArray[2]);
             System.out.println("ClientHandler.run() - MessageType - " + type);
 
-
-//            String hexMessage = HexConverter.getHexMessage(in);
             CoreService service = factory.createService(type);
+            String response = service.process(HexConverter.getHexMessage(byteArray));
 
-//            // Process message
-//            String response = service.process("");
-//            out.println(response);
+            out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
