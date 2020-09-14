@@ -1,6 +1,7 @@
 package com.personal.tcp.app;
 
 import com.personal.tcp.handler.ClientHandler;
+import com.personal.tcp.util.H2Manager;
 
 import java.net.*;
 import java.io.*;
@@ -10,19 +11,13 @@ import java.util.concurrent.Executors;
 
 public class Server {
 
-    public static void main(String[] args) {
-        Server server = new Server();
-        server.run();
-    }
-
     private final ArrayList<ClientHandler> clients = new ArrayList<>();
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
     public void run() {
-
+        int serverPort = 4242;
 
         try {
-            int serverPort = 4242;
             ServerSocket serverSocket = new ServerSocket(serverPort);
 
             while (true) {
@@ -39,7 +34,8 @@ public class Server {
         } catch(IOException ex) {
             ex.printStackTrace();
         }
-
     }
+
+
 
 }

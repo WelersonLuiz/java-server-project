@@ -14,6 +14,8 @@ public class Snippet {
         UserInfoMessage userInfoMessage = userMessage.getData();
         MessageRepository repository = new MessageRepository();
 
+        repository.saveUserInfoMessage(userInfoMessage);
+
     }
 
 }

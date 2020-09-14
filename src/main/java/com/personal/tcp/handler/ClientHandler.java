@@ -27,18 +27,18 @@ public class ClientHandler implements Runnable {
         System.out.println("ClientHandler.run() - Starting processing of message ...");
 
         try {
-            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            String input = br.readLine();
+//            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            InputStreamReader input = new InputStreamReader(in);
 
             // Validate message
-            boolean isValid = Validator.validateMessage(input);
+            boolean isValid = Validator.validateMessage(in);
 
-            MessageTypeEnum type = MessageTypeEnum.getTypeMessage(input);
-            CoreService service = factory.createService(type);
-
-            // Process message
-            String response = service.process(input);
-            out.println(response);
+//            MessageTypeEnum type = MessageTypeEnum.getTypeMessage("");
+//            CoreService service = factory.createService(type);
+//
+//            // Process message
+//            String response = service.process("");
+//            out.println(response);
         } catch (IOException e) {
             e.printStackTrace();
         }
