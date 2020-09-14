@@ -1,7 +1,6 @@
 package com.personal.tcp.util;
 
 import org.h2.tools.Server;
-
 import java.sql.SQLException;
 
 public class H2Manager {
@@ -10,7 +9,7 @@ public class H2Manager {
 
     public void start() {
         try {
-            h2Server = Server.createWebServer("-web", "-webAllowOthers", "-webPort", "9092");
+            h2Server = Server.createWebServer("-web", "-webAllowOthers", "-ifNotExists", "-webPort", "9092");
             h2Server.start();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -7,11 +7,8 @@ public enum MessageTypeEnum {
     A2,
     A3;
 
-    public static MessageTypeEnum getTypeMessage(String input){
-        System.out.println("MessageTypeEnum.getTypeMessage() - Analysing type of message...");
-        MessageTypeEnum type = MessageTypeEnum.valueOf(input.substring(2, 4));
-        System.out.println("MessageTypeEnum.getTypeMessage() - Type of message received: " + type);
-        return type;
+    public static MessageTypeEnum fromString(String name) {
+        return MessageTypeEnum.valueOf(name.trim().toUpperCase());
     }
 
 }

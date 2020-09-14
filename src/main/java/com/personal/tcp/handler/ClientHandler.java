@@ -1,8 +1,9 @@
 package com.personal.tcp.handler;
 
+import com.personal.tcp.enumeration.MessageTypeEnum;
 import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
-import com.personal.tcp.enumeration.MessageTypeEnum;
+import com.personal.tcp.util.HexConverter;
 import com.personal.tcp.util.Validator;
 
 import java.io.*;
@@ -27,15 +28,16 @@ public class ClientHandler implements Runnable {
         System.out.println("ClientHandler.run() - Starting processing of message ...");
 
         try {
-//            BufferedReader br = new BufferedReader(new InputStreamReader(in));
-            InputStreamReader input = new InputStreamReader(in);
+            byte[] byteArray = HexConverter.getByteArray(in);
 
-            // Validate message
-            boolean isValid = Validator.validateMessage(in);
+            String stringType = String.format("%02X ", byteArray[2]);
+            MessageTypeEnum type = MessageTypeEnum.fromString(stringType);
+            System.out.println("ClientHandler.run() - MessageType - " + type);
 
-//            MessageTypeEnum type = MessageTypeEnum.getTypeMessage("");
-//            CoreService service = factory.createService(type);
-//
+
+//            String hexMessage = HexConverter.getHexMessage(in);
+            CoreService service = factory.createService(type);
+
 //            // Process message
 //            String response = service.process("");
 //            out.println(response);
