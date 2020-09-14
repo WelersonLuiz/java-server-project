@@ -1,4 +1,4 @@
-package com.personal.tcp.app;
+package com.personal.tcp;
 
 import com.personal.tcp.handler.ClientHandler;
 import com.personal.tcp.util.H2Manager;

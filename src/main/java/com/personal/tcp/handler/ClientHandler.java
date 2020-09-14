@@ -5,6 +5,8 @@ import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.util.HexConverter;
 import com.personal.tcp.util.Validator;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
@@ -21,6 +23,9 @@ public class ClientHandler implements Runnable {
         this.in = client.getInputStream();
         this.out = new PrintWriter(client.getOutputStream(), true);
         this.factory = new MessageServiceFactory();
+
+        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
+        Logger.getLogger("org.jboss").setLevel(Level.OFF);
     }
 
     @Override

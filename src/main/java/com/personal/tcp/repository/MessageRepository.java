@@ -15,10 +15,6 @@ import java.util.List;
 
 public class MessageRepository {
 
-    public MessageRepository() {
-        Logger.getLogger("org.hibernate").setLevel(Level.OFF);
-    }
-
     public void saveTextMessage(TextMessage message){
         Transaction transaction = null;
 
