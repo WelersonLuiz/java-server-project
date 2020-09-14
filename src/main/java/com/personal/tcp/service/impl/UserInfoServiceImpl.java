@@ -1,13 +1,14 @@
-package com.personal.tcp.service;
+package com.personal.tcp.service.impl;
 
 import com.personal.tcp.entities.message.type.UserMessage;
 import com.personal.tcp.repository.MessageRepository;
+import com.personal.tcp.service.CoreService;
 
-public class UserInfoService implements CoreService {
+public class UserInfoServiceImpl implements CoreService {
 
     private final MessageRepository repository;
 
-    public UserInfoService() {
+    public UserInfoServiceImpl() {
         this.repository = new MessageRepository();
     }
 
