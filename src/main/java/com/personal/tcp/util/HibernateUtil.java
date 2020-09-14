@@ -1,4 +1,4 @@
-package com.personal.tcp.Util;
+package com.personal.tcp.util;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;

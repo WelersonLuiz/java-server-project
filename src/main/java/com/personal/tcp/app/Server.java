@@ -1,4 +1,6 @@
-package com.personal.tcp.server;
+package com.personal.tcp.app;
+
+import com.personal.tcp.handler.ClientHandler;
 
 import java.net.*;
 import java.io.*;

@@ -1,6 +1,6 @@
-package com.personal.tcp.entities.messages;
+package com.personal.tcp.entities.message.types;
 
-import com.personal.tcp.entities.Message;
+import com.personal.tcp.entities.message.Message;
 
 public class User extends Message {
 

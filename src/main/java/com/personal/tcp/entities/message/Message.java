@@ -1,7 +1,7 @@
-package com.personal.tcp.entities;
+package com.personal.tcp.entities.message;
 
 import com.google.gson.GsonBuilder;
-import com.personal.tcp.entities.messages.User;
+import com.personal.tcp.entities.message.types.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import java.util.List;
 public class Message {
 
     private String init;
-    private String bytes;
+    private Integer bytes;
     private String frame;
     private String crc;
     private String end;
@@ -18,16 +18,29 @@ public class Message {
     }
 
     public Message(String input) {
-        this.setInit(input.substring(0,2));
-        this.setBytes(input.substring(2,4));
-        this.setFrame(input.substring(4,6));
-        this.setCrc(input.substring(input.length()-4,input.length()-2));
-        this.setEnd(input.substring(input.length()-2));
+        this.init   = input.substring(0,2);
+        this.bytes  = Integer.parseInt(input.substring(2,4), 16);
+        this.frame  = input.substring(4,6);
+        this.crc    = input.substring(input.length()-4,input.length()-2);
+        this.end    = input.substring(input.length()-2);
     }
 
-    public static List<Message> translateMessages(String input){
-        input = input.replaceAll(" ", "");
+    public static List<Message> buildMessageList(String input){
         List<Message> list = new ArrayList<>();
+        String start = "0A";
+        String end = "0D";
+
+        input = input.replaceAll(" ", "");
+        String byteString = input.substring(0, 2);
+
+        if (byteString.equals(start)){
+            String messageType = input.substring(4, 2);
+
+            switch (messageType){
+
+            }
+
+        }
 
         int i = 0;
         int initialChar = 0;
@@ -55,10 +68,10 @@ public class Message {
         this.init = init;
     }
 
-    public String getBytes() {
+    public Integer getBytes() {
         return bytes;
     }
-    public void setBytes(String bytes) {
+    public void setBytes(Integer bytes) {
         this.bytes = bytes;
     }
 

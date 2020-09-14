@@ -1,9 +1,9 @@
-package com.personal.tcp.server;
+package com.personal.tcp.repository;
 
-import com.personal.tcp.Util.HibernateUtil;
-import com.personal.tcp.entities.Message;
-import com.personal.tcp.entities.messages.UserInfo;
-import com.personal.tcp.entities.messages.User;
+import com.personal.tcp.util.HibernateUtil;
+import com.personal.tcp.entities.message.Message;
+import com.personal.tcp.entities.message.types.UserInfo;
+import com.personal.tcp.entities.message.types.User;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;

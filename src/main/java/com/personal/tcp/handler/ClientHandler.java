@@ -1,12 +1,12 @@
-package com.personal.tcp.server;
+package com.personal.tcp.handler;
 
-import com.personal.tcp.entities.Message;
-import com.personal.tcp.entities.messages.User;
+import com.personal.tcp.factory.MessageServiceFactory;
+import com.personal.tcp.service.CoreService;
+import com.personal.tcp.enumeration.MessageTypeEnum;
 import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
 
 public class ClientHandler implements Runnable {
 
@@ -14,11 +14,13 @@ public class ClientHandler implements Runnable {
     private Socket client;
     private InputStream in;
     private PrintWriter out;
+    private MessageServiceFactory factory;
 
     public ClientHandler(Socket client) throws IOException {
         this.client = client;
         this.in = client.getInputStream();
         this.out = new PrintWriter(client.getOutputStream(), true);
+        this.factory = new MessageServiceFactory();
     }
 
     @Override
@@ -29,17 +31,13 @@ public class ClientHandler implements Runnable {
             String input = br.readLine();
             log.info(input);
 
-            List<Message> user = User.translateMessages(input);
-            DataRepository repository = new DataRepository();
+            // Validate message
 
-            user.forEach(mess -> {
-                switch (mess.getFrame()){
-                    case "A1": repository.saveData(null); break;
-                    case "A2": repository.saveData(mess); break;
-                    default: log.error("Tipo de mensagem não suportada.");
-                }
+            MessageTypeEnum type = MessageTypeEnum.getTypeMessage(input);
+            CoreService service = factory.criarProcessador(type);
 
-            });
+            // Process message
+            service.process(input);
 
             out.println("Mensagem recebida com sucesso!");
         } catch (IOException e) {

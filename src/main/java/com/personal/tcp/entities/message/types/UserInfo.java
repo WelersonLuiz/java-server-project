@@ -1,4 +1,4 @@
-package com.personal.tcp.entities.messages;
+package com.personal.tcp.entities.message.types;
 
 import javax.persistence.*;
 

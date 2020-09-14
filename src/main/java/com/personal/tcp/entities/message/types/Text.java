@@ -1,5 +1,5 @@
-package com.personal.tcp.entities.messages;
-import com.personal.tcp.entities.Message;
+package com.personal.tcp.entities.message.types;
+import com.personal.tcp.entities.message.Message;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
