@@ -34,36 +34,35 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
 
-        while (true){
+        try {
+            String message = in.readLine();
+
+
+            byte[] input = HexConverter.getByteArrayFromString(message);
+            System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
+
+            MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
+            CoreService service = factory.createService(type);
+
+            byte[] response = service.process(input);
+            LOG.info("[SERVER] - Message processed: " + HexConverter.getHexFromByteArray(input));
+
+            System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response) + "\n");
+            out.println(HexConverter.getHexFromByteArray(response));
+
+        } catch (Exception e) {
+            System.err.println("[SERVER] - Invalid Message");
+            out.println("Invalid Message");
+        } finally {
             try {
-                String message = in.readLine();
-                if (message.equals("quit")) break;
-
-                byte[] input = HexConverter.getByteArrayFromString(message);
-                LOG.info("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
-                System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
-
-                MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
-                CoreService service = factory.createService(type);
-
-                byte[] response = service.process(input);
-
-                System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response) + "\n");
-
-                out.println(HexConverter.getHexFromByteArray(response));
-
-            } catch (Exception e) {
-                System.err.println("[SERVER] - Invalid Message");
-                out.println("Invalid Message");
+                out.close();
+                in.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
 
-        out.close();
-        try {
-            in.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 
 }

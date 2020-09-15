@@ -14,6 +14,13 @@ public class Server {
     private final ArrayList<ClientHandler> clients = new ArrayList<>();
     private final ExecutorService pool = Executors.newCachedThreadPool();
 
+    public static void main(String[] args) {
+        H2Manager h2Manager = new H2Manager();
+        h2Manager.start();
+        Server server = new Server();
+        server.run();
+    }
+
     public void run() {
         int serverPort = 4242;
 
