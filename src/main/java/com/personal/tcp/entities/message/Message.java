@@ -1,7 +1,5 @@
 package com.personal.tcp.entities.message;
 
-import com.google.gson.GsonBuilder;
-
 import javax.xml.bind.DatatypeConverter;
 
 public class Message {
@@ -21,6 +19,22 @@ public class Message {
         this.frame  = DatatypeConverter.printByte(input[2]);
         this.crc    = DatatypeConverter.printByte(input[input.length-2]);
         this.end    = DatatypeConverter.printByte(input[input.length-1]);
+    }
+
+    public String toHexString() {
+        return init + " " +  String.format("%02X", bytes) + " " +  frame + " " +  crc + " " +  end;
+    }
+
+    public static String getAckResponse(){
+        Message ack = new Message();
+
+        ack.init    = "0A";
+        ack.bytes   = 5;
+        ack.frame   = "A0";
+        ack.crc     = "28";
+        ack.end     = "0D";
+
+        return ack.toHexString();
     }
 
     public String getInit() {
@@ -56,10 +70,6 @@ public class Message {
     }
     public void setEnd(String end) {
         this.end = end;
-    }
-
-    public String toJson(){
-        return new GsonBuilder().setPrettyPrinting().create().toJson(this);
     }
 
 }

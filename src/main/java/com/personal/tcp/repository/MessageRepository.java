@@ -16,6 +16,7 @@ import java.util.List;
 public class MessageRepository {
 
     public void saveTextMessage(TextMessage message){
+        System.out.println("MessageRepository.saveTextMessage() - Writting in the database... ");
         Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -31,6 +32,7 @@ public class MessageRepository {
     }
 
     public void saveUserInfoMessage(UserInfoMessage message){
+        System.out.println("[SERVER] - Writting into the database... ");
         Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
@@ -43,6 +45,7 @@ public class MessageRepository {
             }
             e.printStackTrace();
         }
+        System.out.println("[SERVER] - Message saved!");
     }
 
 }

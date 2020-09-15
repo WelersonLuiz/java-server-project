@@ -19,11 +19,11 @@ public class Server {
 
         try {
             ServerSocket serverSocket = new ServerSocket(serverPort);
+            System.out.println("[SERVER] - Connections on port: " + serverSocket.getLocalPort() + "");
 
             while (true) {
-                System.out.println("Aguardando nova conexão na Porta " + serverSocket.getLocalPort() + ".");
                 Socket socket = serverSocket.accept();
-                System.out.println("Cliente conectado: " + socket.getRemoteSocketAddress());
+                System.out.println("\n[SERVER] - Client connected: " + socket.getRemoteSocketAddress());
 
                 ClientHandler client = new ClientHandler(socket);
                 clients.add(client);

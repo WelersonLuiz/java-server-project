@@ -45,4 +45,17 @@ public class HexConverter {
         return getAsciiFromHex(getHexFromByteArray(array));
     }
 
+    public static byte[] getByteArrayFromString(String s) {
+        s = s.replaceAll(" ", "");
+        int len = s.length();
+        byte[] array = new byte[len / 2];
+
+        for (int i = 0; i < len; i += 2) {
+            array[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4)
+                    + Character.digit(s.charAt(i+1), 16));
+        }
+
+        return array;
+    }
+
 }

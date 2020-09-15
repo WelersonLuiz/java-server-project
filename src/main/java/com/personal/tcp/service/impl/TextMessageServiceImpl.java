@@ -1,8 +1,10 @@
 package com.personal.tcp.service.impl;
 
+import com.personal.tcp.entities.message.Message;
 import com.personal.tcp.entities.message.type.TextMessage;
 import com.personal.tcp.repository.MessageRepository;
 import com.personal.tcp.service.CoreService;
+import com.personal.tcp.util.HexConverter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,14 +18,12 @@ public class TextMessageServiceImpl implements CoreService {
 
     @Override
     public byte[] process(byte[] input) {
-        System.out.println("TextMessageServiceImpl.process() - Processing Message... ");
-        String response = "Gerar Resposta";
+        System.out.println("[SERVER] - Text Message");
 
         TextMessage message = new TextMessage(input);
         repository.saveTextMessage(message);
 
-        System.out.println("TextMessageServiceImpl.process() - Message processed. Response: " + response);
-        return input;
+        return HexConverter.getByteArrayFromString(Message.getAckResponse());
     }
 
 }

@@ -32,28 +32,27 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("ClientHandler.run() - Starting processing of message ...");
 
         try {
             byte[] input = HexConverter.getByteArrayFromInput(in);
-            LOG.info("ClientHandler.run() - Message received: " + HexConverter.getHexFromByteArray(input));
+            LOG.info("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
+            System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
 
             MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
-            System.out.println("ClientHandler.run() - MessageType: " + type);
-
             CoreService service = factory.createService(type);
 
             byte[] response = service.process(input);
 
-            System.out.println("ClientHandler.run() - Response: " + HexConverter.getAsciiFromByteArray(response));
-
+            System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response));
+            out.write(response);
+            out.flush();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
             pw.close();
         }
 
-        System.out.println("ClientHandler.run() - Processing of message finished!");
+        System.out.println("[SERVER] - Connection closed");
     }
 
 }
