@@ -2,7 +2,7 @@ package com.personal.tcp.util;
 
 public class CalcCRC {
 
-    private static String calcCRC(byte[] data) {
+    public static String calcCRC(byte[] data) {
         int tmp;
         int res = 0;
 

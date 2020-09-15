@@ -1,7 +1,5 @@
 package com.personal.tcp.service.impl;
 
-import com.personal.tcp.entities.message.Message;
-import com.personal.tcp.entities.message.type.DateFields;
 import com.personal.tcp.entities.message.type.DateMessage;
 import com.personal.tcp.entities.message.type.DateResponseMessage;
 import com.personal.tcp.service.CoreService;
@@ -15,11 +13,16 @@ public class DateServiceImpl implements CoreService {
     @Override
     public byte[] process(byte[] input) {
         System.out.println("[SERVER] - Date Message");
-        DateMessage message = new DateMessage(input);
+        DateResponseMessage response;
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(message.getTimezone()));
+        try {
+            DateMessage message = new DateMessage(input);
+            Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(message.getTimezone()));
+            response = new DateResponseMessage(calendar);
+        } catch (Exception e){
+            return null;
+        }
 
-        DateResponseMessage response = new DateResponseMessage(calendar);
         return HexConverter.getByteArrayFromString(response.toHexString());
     }
 

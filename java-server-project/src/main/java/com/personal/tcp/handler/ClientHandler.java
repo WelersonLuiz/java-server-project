@@ -37,7 +37,6 @@ public class ClientHandler implements Runnable {
         try {
             String message = in.readLine();
 
-
             byte[] input = HexConverter.getByteArrayFromString(message);
             System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
 
