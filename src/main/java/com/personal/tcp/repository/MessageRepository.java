@@ -16,7 +16,7 @@ import java.util.List;
 public class MessageRepository {
 
     public void saveTextMessage(TextMessage message){
-        System.out.println("MessageRepository.saveTextMessage() - Writting in the database... ");
+        System.out.println("[SERVER] - Writting into the database... ");
         Transaction transaction = null;
 
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {

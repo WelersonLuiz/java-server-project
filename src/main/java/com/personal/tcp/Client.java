@@ -2,10 +2,7 @@ package com.personal.tcp;
 
 import com.personal.tcp.util.HexConverter;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
 
 public class Client {
@@ -16,20 +13,19 @@ public class Client {
     public static void main(String[] args) throws IOException {
         Socket socket = new Socket(SERVER_IP, PORT);
 
+        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
         BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
-        PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
 
-        while (true){
-            System.out.print("> ");
-            String command = keyboard.readLine();
+        String userInput = "";
 
-            if (command.equals("exit")) break;
-            socket.getOutputStream()
-                    .write(HexConverter.getByteArrayFromString(command));
+        while (!userInput.equals("quit")) {
+            System.out.println("[CLIENT] - Send your message: ");
+            userInput = keyboard.readLine();
+            System.out.println("[CLIENT] - Wating for response... ");
 
-            String response = in.readLine();
-            System.out.println("Response: " + response);
+            out.println(userInput);
+            System.out.println("[CLIENT] - Server response: " + in.readLine());
         }
 
         socket.close();

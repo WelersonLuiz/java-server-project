@@ -14,16 +14,17 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
-    private final InputStream in;
-    private final OutputStream out;
-    private final PrintWriter pw;
+    private final Socket client;
+    private final BufferedReader in;
+    private final PrintWriter out;
     private final MessageServiceFactory factory;
+
     private static final Logger LOG = LogManager.getLogger(UserInfoServiceImpl.class);
 
     public ClientHandler(Socket client) throws IOException {
-        this.in = client.getInputStream();
-        this.out = client.getOutputStream();
-        this.pw = new PrintWriter(client.getOutputStream(), true);
+        this.client = client;
+        this.in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        this.out = new PrintWriter(client.getOutputStream(), true);
         this.factory = new MessageServiceFactory();
 
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
@@ -33,26 +34,36 @@ public class ClientHandler implements Runnable {
     @Override
     public void run() {
 
-        try {
-            byte[] input = HexConverter.getByteArrayFromInput(in);
-            LOG.info("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
-            System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
+        while (true){
+            try {
+                String message = in.readLine();
+                if (message.equals("quit")) break;
 
-            MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
-            CoreService service = factory.createService(type);
+                byte[] input = HexConverter.getByteArrayFromString(message);
+                LOG.info("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
+                System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
 
-            byte[] response = service.process(input);
+                MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
+                CoreService service = factory.createService(type);
 
-            System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response));
-            out.write(response);
-            out.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            pw.close();
+                byte[] response = service.process(input);
+
+                System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response) + "\n");
+
+                out.println(HexConverter.getHexFromByteArray(response));
+
+            } catch (Exception e) {
+                System.err.println("[SERVER] - Invalid Message");
+                out.println("Invalid Message");
+            }
         }
 
-        System.out.println("[SERVER] - Connection closed");
+        out.close();
+        try {
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 }
