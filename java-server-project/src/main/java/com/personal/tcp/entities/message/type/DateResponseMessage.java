@@ -26,8 +26,6 @@ public class DateResponseMessage extends Message {
 
     @Override
     public String toHexString() {
-        System.out.println("FIELDS - " + fields.toString());
-        System.out.println("HEX FIELDS - " + fields.toHexString());
         return getInit() + " " +
                 getBytes() + " " +
                 getFrame() + " " +

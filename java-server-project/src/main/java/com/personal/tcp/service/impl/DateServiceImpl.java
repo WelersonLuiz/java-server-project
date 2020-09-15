@@ -20,7 +20,6 @@ public class DateServiceImpl implements CoreService {
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(message.getTimezone()));
 
         DateResponseMessage response = new DateResponseMessage(calendar);
-        System.out.println("[SERVER] - Date Message Response: " + response.toHexString());
         return HexConverter.getByteArrayFromString(response.toHexString());
     }
 

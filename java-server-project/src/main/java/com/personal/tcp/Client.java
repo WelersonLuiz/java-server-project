@@ -25,8 +25,6 @@ public class Client {
             userInput = keyboard.readLine();
             if (userInput.equals("quit")) break;
 
-            System.out.println("[CLIENT] - Wating for response... ");
-
             out.println(userInput);
             System.out.println("[CLIENT] - Server response: " + in.readLine());
             socket.close();
