@@ -1,11 +1,5 @@
 package com.personal.tcp.app;
 
-import com.personal.tcp.Client;
-import com.personal.tcp.Server;
-import com.personal.tcp.util.H2Manager;
-
-import java.io.IOException;
-
 public class App {
 //
 //    public static void main(String[] args) throws IOException {
