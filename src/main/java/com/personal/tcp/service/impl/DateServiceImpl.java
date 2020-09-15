@@ -24,11 +24,4 @@ public class DateServiceImpl implements CoreService {
         return HexConverter.getByteArrayFromString(response.toHexString());
     }
 
-    public static void main(String[] args) {
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Sao_Paulo"));
-        DateFields fields = new DateFields(calendar);
-
-        System.out.println(fields.toString());
-    }
-
 }
