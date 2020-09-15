@@ -29,7 +29,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>com.personal.tcp.app.App</mainClass>
+                    <mainClass>com.personal.tcp.Server</mainClass>
                     <additionalClasspathElements>
                         <additionalClasspathElement>
                             /tmp/externalTestJars/testjar.jar
