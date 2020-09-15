@@ -14,14 +14,14 @@ public class DateServiceImpl implements CoreService {
 
     @Override
     public byte[] process(byte[] input) {
-        System.out.println("DateServiceImpl.process() - Processing Message");
+        System.out.println("[SERVER] - Date Message");
         DateMessage message = new DateMessage(input);
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(message.getTimezone()));
 
         DateResponseMessage response = new DateResponseMessage(calendar);
-
-        return HexConverter.getByteArrayFromString(Message.getAckResponse());
+        System.out.println("[SERVER] - Date Message Response: " + response.toHexString());
+        return HexConverter.getByteArrayFromString(response.toHexString());
     }
 
     public static void main(String[] args) {

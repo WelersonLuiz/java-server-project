@@ -12,9 +12,9 @@ public class DateResponseMessage extends Message {
         this.setInit("0A");
         this.setBytes(11);
         this.setFrame("A3");
+        this.fields = new DateFields(date);
         this.setCrc("9C");
         this.setEnd("0D");
-        this.fields = new DateFields(date);
     }
 
     public DateFields getFields() {
@@ -24,10 +24,16 @@ public class DateResponseMessage extends Message {
         this.fields = fields;
     }
 
-
     @Override
-    public String toString() {
-        return getInit() + " ";
+    public String toHexString() {
+        System.out.println("FIELDS - " + fields.toString());
+        System.out.println("HEX FIELDS - " + fields.toHexString());
+        return getInit() + " " +
+                getBytes() + " " +
+                getFrame() + " " +
+                fields.toHexString() + " " +
+                getCrc() + " " +
+                getEnd();
     }
 
 }

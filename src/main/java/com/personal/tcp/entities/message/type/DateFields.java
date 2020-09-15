@@ -13,10 +13,10 @@ public class DateFields {
     private int second;
 
     public DateFields(Calendar date) {
-        this.day = date.get(Calendar.DAY_OF_MONTH);
-        this.month = date.get(Calendar.MONTH);
-        this.year = date.get(Calendar.YEAR) % 100;
-        this.hour = date.get(Calendar.HOUR);
+        this.day    = date.get(Calendar.DAY_OF_MONTH);
+        this.month  = date.get(Calendar.MONTH)+1;
+        this.year   = date.get(Calendar.YEAR) % 100;
+        this.hour   = date.get(Calendar.HOUR);
         this.minute = date.get(Calendar.MINUTE);
         this.second = date.get(Calendar.SECOND);
     }
@@ -63,20 +63,16 @@ public class DateFields {
         this.second = second;
     }
 
-    @Override
-    public String toString() {
-        Field[] fields = this.getClass().getDeclaredFields();
-        String concatFields = "";
+    public String toString(){
+        return day + " " + month + " " + year + " " + hour + " " + minute  + " " + second;
+    }
 
-        for (Field f : fields) {
-            f.setAccessible(true);
-            try {
-                concatFields = concatFields.concat(" ").concat(f.get(this).toString());
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            }
-        }
-
-        return concatFields;
+    public String toHexString() {
+        return String.format("%02X", day) + " " +
+                String.format("%02X", month) + " " +
+                String.format("%02X", year) + " " +
+                String.format("%02X", hour) + " " +
+                String.format("%02X", minute) + " " +
+                String.format("%02X", second);
     }
 }
