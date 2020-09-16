@@ -1,6 +1,6 @@
 package com.personal.tcp.repository;
 
-import com.personal.tcp.util.HibernateUtil;
+import com.personal.tcp.database.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

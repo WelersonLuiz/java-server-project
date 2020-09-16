@@ -1,4 +1,4 @@
-package com.personal.tcp.util;
+package com.personal.tcp.database;
 
 import org.h2.tools.Server;
 import java.sql.SQLException;

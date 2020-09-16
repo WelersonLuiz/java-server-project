@@ -1,7 +1,7 @@
 package com.personal.tcp;
 
 import com.personal.tcp.handler.ClientHandler;
-import com.personal.tcp.util.H2Manager;
+import com.personal.tcp.database.H2Manager;
 import org.hibernate.secure.spi.IntegrationException;
 
 import java.net.*;
