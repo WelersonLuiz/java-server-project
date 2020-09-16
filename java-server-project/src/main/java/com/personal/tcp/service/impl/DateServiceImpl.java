@@ -16,7 +16,14 @@ public class DateServiceImpl implements CoreService {
         System.out.println("[SERVER] - Date Message");
         DateResponseMessage response;
 
-        DateMessage message = new DateMessage(input);
+        DateMessage message;
+
+        try {
+             message = new DateMessage(input);
+        } catch (Exception e){
+            throw new IntegrationException("Falha ao processar. Mensagem invalida.");
+        }
+
         Calendar calendar = getCalendar(message.getTimezone());
         response = new DateResponseMessage(calendar);
 
@@ -32,7 +39,7 @@ public class DateServiceImpl implements CoreService {
             }
         }
 
-        throw new IntegrationException("Timezone inválida.");
+        throw new IntegrationException("Timezone invalida.");
     }
 
 }

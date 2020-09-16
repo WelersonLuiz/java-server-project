@@ -26,7 +26,7 @@ public class UserInfoServiceImpl implements CoreService {
             UserMessage message = new UserMessage(input);
             repository.saveMessage(message.getData());
         } catch (Exception e) {
-            throw new IntegrationException("Falha ao processar. Mensagem inválida.");
+            throw new IntegrationException("Falha ao processar. Mensagem invalida.");
         }
 
         return HexConverter.getByteArrayFromString(Message.getAckResponse());

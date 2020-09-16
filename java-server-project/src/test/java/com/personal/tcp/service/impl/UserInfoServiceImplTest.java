@@ -4,6 +4,7 @@ import com.personal.tcp.entities.message.Message;
 import com.personal.tcp.entities.message.type.UserMessage;
 import com.personal.tcp.repository.MessageRepository;
 import com.personal.tcp.util.HexConverter;
+import org.hibernate.secure.spi.IntegrationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,6 +12,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.fail;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doNothing;
 
@@ -40,13 +42,18 @@ public class UserInfoServiceImplTest {
         Assert.assertArrayEquals(expected, response);
     }
 
-    @Test
-    public void userInfoProcessFailTest() {
+    @Test(expected = IntegrationException.class)
+    public void textMessageProcessFailTest() {
         doNothing().when(repository).saveMessage(any());
 
-        byte[] response = service.process(new byte[1]);
+        try {
+            service.process(new byte[1]);
+        } catch (IntegrationException e){
+            Assert.assertEquals("Falha ao processar. Mensagem invalida.", e.getMessage());
+            throw e;
+        }
 
-        Assert.assertArrayEquals(null, response);
+        fail();
     }
 
 }

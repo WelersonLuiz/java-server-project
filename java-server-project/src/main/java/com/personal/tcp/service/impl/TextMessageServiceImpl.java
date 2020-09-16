@@ -23,7 +23,7 @@ public class TextMessageServiceImpl implements CoreService {
             TextMessage message = new TextMessage(input);
             repository.saveMessage(message);
         } catch (Exception e){
-            throw new IntegrationException("Falha ao processar. Mensagem inválida.");
+            throw new IntegrationException("Falha ao processar. Mensagem invalida.");
         }
 
         return HexConverter.getByteArrayFromString(Message.getAckResponse());
