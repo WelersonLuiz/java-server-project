@@ -28,7 +28,7 @@ public class HexConverter {
         return getAsciiFromHex(getHexFromByteArray(array));
     }
 
-    public static byte[] getByteArrayFromString(String s) {
+    public static byte[] getByteArrayFromHex(String s) {
         s = s.replaceAll(" ", "");
         int len = s.length();
         byte[] array = new byte[len / 2];

@@ -27,7 +27,7 @@ public class DateServiceImpl implements CoreService {
         Calendar calendar = getCalendar(message.getTimezone());
         response = new DateResponseMessage(calendar);
 
-        return HexConverter.getByteArrayFromString(response.toHexString());
+        return HexConverter.getByteArrayFromHex(response.toHexString());
     }
 
     private Calendar getCalendar(String timezone){

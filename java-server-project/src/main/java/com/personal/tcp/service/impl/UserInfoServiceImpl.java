@@ -6,8 +6,6 @@ import com.personal.tcp.entities.message.type.UserMessage;
 import com.personal.tcp.repository.MessageRepository;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.util.HexConverter;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.hibernate.secure.spi.IntegrationException;
 
 public class UserInfoServiceImpl implements CoreService {
@@ -29,7 +27,7 @@ public class UserInfoServiceImpl implements CoreService {
             throw new IntegrationException("Falha ao processar. Mensagem invalida.");
         }
 
-        return HexConverter.getByteArrayFromString(Message.getAckResponse());
+        return HexConverter.getByteArrayFromHex(Message.getAckResponse());
     }
 
 }

@@ -29,14 +29,14 @@ public class TextMessageServiceImplTest {
 
     public TextMessageServiceImplTest() {
         String stringTest = "0A 10 A1 48 65 6C 6C 6F 20 57 6F 72 6C 64 DC 0D";
-        this.arrayTest = HexConverter.getByteArrayFromString(stringTest);
+        this.arrayTest = HexConverter.getByteArrayFromHex(stringTest);
     }
 
     @Test
     public void textMessageProcessTest() {
         doNothing().when(repository).saveMessage(any());
 
-        byte[] expected = HexConverter.getByteArrayFromString(Message.getAckResponse());
+        byte[] expected = HexConverter.getByteArrayFromHex(Message.getAckResponse());
         byte[] response = service.process(arrayTest);
 
         Assert.assertArrayEquals(expected, response);

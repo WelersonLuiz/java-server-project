@@ -26,7 +26,7 @@ public class TextMessageServiceImpl implements CoreService {
             throw new IntegrationException("Falha ao processar. Mensagem invalida.");
         }
 
-        return HexConverter.getByteArrayFromString(Message.getAckResponse());
+        return HexConverter.getByteArrayFromHex(Message.getAckResponse());
     }
 
 }

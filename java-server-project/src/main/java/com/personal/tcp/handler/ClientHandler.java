@@ -57,7 +57,7 @@ public class ClientHandler implements Runnable {
 
     public String handleMessage(String message){
         System.out.println("[SERVER] - Message received: " + message);
-        byte[] input = HexConverter.getByteArrayFromString(message);
+        byte[] input = HexConverter.getByteArrayFromHex(message);
 
         validateMessage(input);
 

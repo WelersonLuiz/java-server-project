@@ -29,7 +29,7 @@ public class ClientHandlerTest {
 
     @Test
     public void clientHandlerMessageTest() {
-        byte[] array = HexConverter.getByteArrayFromString(Message.getAckResponse());
+        byte[] array = HexConverter.getByteArrayFromHex(Message.getAckResponse());
 
         when(factory.createService(any())).thenReturn(service);
         when(service.process(any())).thenReturn(array);

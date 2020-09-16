@@ -54,24 +54,4 @@ public class CrcValidator {
         return crc == calc(data, data.length);
     }
 
-//    public static void main(String[] args) {
-//        String hexString = "A0 09 01 31 32 33 34 C6 0D";
-//        byte[] array = HexConverter.getByteArrayFromString(hexString);
-//        System.out.println(crcIsValid(array));
-//    }
-//
-//    public static byte calcCRC(byte[] data) {
-//        return 0x00;
-//    }
-//
-//    String name = "CRC-8/TECH-3250";
-//    int width = 8;
-//    byte poly = (byte) 0x1d;
-//    byte init = (byte) 0xff;
-//    boolean refin = true;
-//    boolean refout = true;
-//    byte xorout = (byte) 0x00;
-//    byte check = (byte) 0x97;
-//    byte residue = (byte) 0x00;
-
 }
