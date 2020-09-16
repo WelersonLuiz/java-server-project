@@ -1,5 +1,8 @@
 package com.personal.tcp;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,9 +13,9 @@ public class Client {
 
     private static final String SERVER_IP = "127.0.0.1";
     private static final int PORT = 4242;
+    private static final Logger LOG = LogManager.getLogger(Client.class);
 
     public static void main(String[] args) throws IOException {
-        String userInput = "";
 
         while (true) {
             Socket socket = new Socket(SERVER_IP, PORT);
@@ -22,11 +25,17 @@ public class Client {
             BufferedReader keyboard = new BufferedReader(new InputStreamReader(System.in));
 
             System.out.println("[CLIENT] - Send your message: ");
-            userInput = keyboard.readLine();
+            String userInput = keyboard.readLine();
+            LOG.info("[CLIENT] - Message sent: " + userInput);
             if (userInput.equals("quit")) break;
+
             System.out.println("[CLIENT] - Waiting for response... ");
             out.println(userInput);
-            System.out.println("[CLIENT] - Server response: " + in.readLine());
+
+            String response = in.readLine();
+
+            LOG.info("[CLIENT] - Server response: " + response);
+            System.out.println("[CLIENT] - Server response: " + response);
             socket.close();
         }
 
