@@ -1,5 +1,6 @@
 package com.personal.tcp.handler;
 
+import com.personal.tcp.entities.message.Message;
 import com.personal.tcp.enumeration.MessageTypeEnum;
 import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
@@ -16,21 +17,25 @@ import java.net.Socket;
 
 public class ClientHandler implements Runnable {
 
-    private final Socket client;
-    private final BufferedReader in;
-    private final PrintWriter out;
-    private final MessageServiceFactory factory;
+    private BufferedReader in;
+    private PrintWriter out;
+    private MessageServiceFactory factory;
 
     private static final Logger LOG = LogManager.getLogger(UserInfoServiceImpl.class);
 
-    public ClientHandler(Socket client) throws IOException {
-        this.client = client;
-        this.in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-        this.out = new PrintWriter(client.getOutputStream(), true);
-        this.factory = new MessageServiceFactory();
-
+    public ClientHandler() {
         Logger.getLogger("org.hibernate").setLevel(Level.OFF);
         Logger.getLogger("org.jboss").setLevel(Level.OFF);
+    }
+
+    public ClientHandler connect(Socket client) throws IOException {
+        ClientHandler handler = new ClientHandler();
+
+        handler.in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+        handler.out = new PrintWriter(client.getOutputStream(), true);
+        handler.factory = new MessageServiceFactory();
+
+        return handler;
     }
 
     @Override
@@ -50,12 +55,11 @@ public class ClientHandler implements Runnable {
         }
     }
 
-    private String handleMessage(String message){
+    public String handleMessage(String message){
         System.out.println("[SERVER] - Message received: " + message);
         byte[] input = HexConverter.getByteArrayFromString(message);
 
-        if (!CrcValidator.crcIsValid(input))
-            throw new IntegrationException("CRC invalid");
+        validateMessage(input);
 
         MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
         CoreService service = factory.createService(type);
@@ -68,6 +72,17 @@ public class ClientHandler implements Runnable {
         LOG.info("[SERVER] - Message processed: " + message);
         LOG.info("[SERVER] - Response: " + response);
         return response;
+    }
+
+    public void validateMessage(byte[] input){
+        try {
+            new Message(input);
+        } catch (Exception e){
+            throw new IntegrationException("Message format invalid.");
+        }
+
+        if (!CrcValidator.crcIsValid(input))
+            throw new IntegrationException("CRC invalid");
     }
 
 }

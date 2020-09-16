@@ -6,7 +6,6 @@ import org.hibernate.secure.spi.IntegrationException;
 
 import java.net.*;
 import java.io.*;
-import java.util.ArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -26,7 +25,7 @@ public class Server {
         try {
             ServerSocket server = createServerSocket();
             while (true) {
-                ClientHandler client = createClient(server);
+                ClientHandler client = connectClient(server);
                 pool.execute(client);
             }
         } catch(IntegrationException e) {
@@ -44,11 +43,11 @@ public class Server {
         }
     }
 
-    private ClientHandler createClient(ServerSocket server){
+    public ClientHandler connectClient(ServerSocket server){
         try {
             Socket socket = server.accept();
             System.out.println("\n[SERVER] - Client connected: " + socket.getRemoteSocketAddress());
-            return new ClientHandler(socket);
+            return new ClientHandler().connect(socket);
         } catch (IOException e) {
             throw new IntegrationException("Fail to connect the new client");
         }
