@@ -4,23 +4,23 @@
 
 ### 2 - Subir o Servidor TCP
 
-+ Acessar a pasta java-server-project pelo terminal
++ Acessar a pasta *tcp-project/java-server-project* pelo cmd ou powershell
 + Rodar comando:
   
   `mvn clean install`
 + Rodar comando:
   
-  `mvn exec:java -Dexec.mainClass="com.personal.tcp.Server"`
+  `mvn exec:java "-Dexec.mainClass=com.personal.tcp.Server"`
 
 ### 3 - Subir o Client TCP
 
-+ Acessar a pasta java-client-project pelo terminal
++ Acessar a pasta *tcp-project/java-client-project* pelo cmd ou powershell
 + Rodar comando:
 
   `mvn clean install`
 + Rodar comando:
 
-  `mvn exec:java -Dexec.mainClass="com.personal.tcp.Client"`
+  `mvn exec:java "-Dexec.mainClass=com.personal.tcp.Client"`
 
 ### 4 - Enviar Mensagens
 + No terminal do client, escrever as mensagens no formato Hex e apertar Enter para enviar
