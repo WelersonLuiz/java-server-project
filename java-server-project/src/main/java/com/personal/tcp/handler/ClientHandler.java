@@ -4,6 +4,7 @@ import com.personal.tcp.enumeration.MessageTypeEnum;
 import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.service.impl.UserInfoServiceImpl;
+import com.personal.tcp.util.CalcCRC;
 import com.personal.tcp.util.HexConverter;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -33,35 +34,35 @@ public class ClientHandler implements Runnable {
 
     @Override
     public void run() {
-
         try {
             String message = in.readLine();
+            String response = handleMessage(message);
+            out.println(response);
 
-            byte[] input = HexConverter.getByteArrayFromString(message);
-            System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
-
-            MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
-            CoreService service = factory.createService(type);
-
-            byte[] response = service.process(input);
-            LOG.info("[SERVER] - Message processed: " + HexConverter.getHexFromByteArray(input));
-
-            System.out.println("[SERVER] - Response: " + HexConverter.getHexFromByteArray(response) + "\n");
-            out.println(HexConverter.getHexFromByteArray(response));
-
+            out.close();
+            in.close();
         } catch (Exception e) {
             System.err.println("[SERVER] - Invalid Message");
             out.println("Invalid Message");
-        } finally {
-            try {
-                out.close();
-                in.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         }
+    }
 
+    private String handleMessage(String message){
+        byte[] input = HexConverter.getByteArrayFromString(message);
+        System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
 
+        if (!CalcCRC.crcIsValid(input))
+            return "CRC is not Valid";
+
+        MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
+        CoreService service = factory.createService(type);
+
+        byte[] byteResponse = service.process(input);
+        LOG.info("[SERVER] - Message processed: " + HexConverter.getHexFromByteArray(input));
+
+        String response = HexConverter.getHexFromByteArray(byteResponse);
+        System.out.println("[SERVER] - Response: " + response + "\n");
+        return response;
     }
 
 }
