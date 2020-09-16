@@ -4,11 +4,12 @@ import com.personal.tcp.enumeration.MessageTypeEnum;
 import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.service.impl.UserInfoServiceImpl;
-import com.personal.tcp.util.CalcCRC;
+import com.personal.tcp.util.CrcValidator;
 import com.personal.tcp.util.HexConverter;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.secure.spi.IntegrationException;
 
 import java.io.*;
 import java.net.Socket;
@@ -37,31 +38,35 @@ public class ClientHandler implements Runnable {
         try {
             String message = in.readLine();
             String response = handleMessage(message);
-            out.println(response);
 
+            out.println(response);
             out.close();
             in.close();
-        } catch (Exception e) {
-            System.err.println("[SERVER] - Invalid Message");
-            out.println("Invalid Message");
+        } catch (IntegrationException e){
+            System.err.println("[SERVER] - " + e.getMessage());
+            out.println(e.getMessage());
+        } catch (IOException e) {
+            System.err.println("[SERVER] - IOException while reading/writing message");
         }
     }
 
     private String handleMessage(String message){
+        System.out.println("[SERVER] - Message received: " + message);
         byte[] input = HexConverter.getByteArrayFromString(message);
-        System.out.println("[SERVER] - Message received: " + HexConverter.getHexFromByteArray(input));
 
-        if (!CalcCRC.crcIsValid(input))
-            return "CRC is not Valid";
+        if (!CrcValidator.crcIsValid(input))
+            throw new IntegrationException("CRC invalid");
 
         MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
         CoreService service = factory.createService(type);
 
         byte[] byteResponse = service.process(input);
-        LOG.info("[SERVER] - Message processed: " + HexConverter.getHexFromByteArray(input));
-
         String response = HexConverter.getHexFromByteArray(byteResponse);
-        System.out.println("[SERVER] - Response: " + response + "\n");
+
+        System.out.println("[SERVER] - Response: " + response);
+
+        LOG.info("[SERVER] - Message processed: " + message);
+        LOG.info("[SERVER] - Response: " + response);
         return response;
     }
 

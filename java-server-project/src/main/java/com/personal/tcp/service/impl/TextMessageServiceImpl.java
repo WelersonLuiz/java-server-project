@@ -5,6 +5,7 @@ import com.personal.tcp.entities.message.type.TextMessage;
 import com.personal.tcp.repository.MessageRepository;
 import com.personal.tcp.service.CoreService;
 import com.personal.tcp.util.HexConverter;
+import org.hibernate.secure.spi.IntegrationException;
 
 public class TextMessageServiceImpl implements CoreService {
 
@@ -22,7 +23,7 @@ public class TextMessageServiceImpl implements CoreService {
             TextMessage message = new TextMessage(input);
             repository.saveMessage(message);
         } catch (Exception e){
-          return null;
+            throw new IntegrationException("Falha ao processar. Mensagem inválida.");
         }
 
         return HexConverter.getByteArrayFromString(Message.getAckResponse());

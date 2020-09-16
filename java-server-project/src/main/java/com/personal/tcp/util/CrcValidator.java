@@ -2,7 +2,7 @@ package com.personal.tcp.util;
 
 import java.util.Arrays;
 
-public class CalcCRC {
+public class CrcValidator {
 
     private static final byte[] CRC8_TABLE =
             new byte[] {

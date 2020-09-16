@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import static org.mockito.Matchers.any;
 
 public class Client {
 
@@ -25,7 +24,7 @@ public class Client {
             System.out.println("[CLIENT] - Send your message: ");
             userInput = keyboard.readLine();
             if (userInput.equals("quit")) break;
-
+            System.out.println("[CLIENT] - Waiting for response... ");
             out.println(userInput);
             System.out.println("[CLIENT] - Server response: " + in.readLine());
             socket.close();
