@@ -57,9 +57,9 @@ public class ClientHandler implements Runnable {
 
     public String handleMessage(String message){
         System.out.println("[SERVER] - Message received: " + message);
-        byte[] input = HexConverter.getByteArrayFromHex(message);
+        validateMessage(message);
 
-        validateMessage(input);
+        byte[] input = HexConverter.getByteArrayFromHex(message);
 
         MessageTypeEnum type = MessageTypeEnum.fromByte(input[2]);
         CoreService service = factory.createService(type);
@@ -74,15 +74,15 @@ public class ClientHandler implements Runnable {
         return response;
     }
 
-    public void validateMessage(byte[] input){
+    public void validateMessage(String message){
         try {
+            byte[] input = HexConverter.getByteArrayFromHex(message);
             new Message(input);
+            if (!CrcValidator.crcIsValid(input))
+                throw new IntegrationException("CRC invalid");
         } catch (Exception e){
             throw new IntegrationException("Message format invalid.");
         }
-
-        if (!CrcValidator.crcIsValid(input))
-            throw new IntegrationException("CRC invalid");
     }
 
 }
