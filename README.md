@@ -42,7 +42,7 @@
 | Cenário                         | Valor                                                             |
 |---------------------------------|-------------------------------------------------------------------|
 | Mensagem com Texto              | 0A 10 A1 48 65 6C 6C 6F 20 57 6F 72 6C 64 DC 0D                   |
-| Mensagem com User Info          | 0A 10 A1 48 65 6C 6C 6F 20 57 6F 72 6C 64 DC 0D                   |
+| Mensagem com User Info          | 0A 15 A2 20 7A C3 0C 4D 69 63 68 65 6C 20 52 65 69 70 73 16 0D    |
 | Mensagem com Timezone           | 0A 16 A3 41 6D 65 72 69 63 61 2F 53 61 6F 5F 50 61 75 6C 6F CD 0D |
 | Mensagem com Timezone Inválida  | 0A 16 A3 41 6D 65 72 69 63 61 2F 53 61 6F 5F 50 61 75 6C 6D C3 0D |
 | Mensagem com Frame Inválido     | 0A 10 A0 48 65 6C 6C 6F 20 57 6F 72 6C 64 81 0D                   |
