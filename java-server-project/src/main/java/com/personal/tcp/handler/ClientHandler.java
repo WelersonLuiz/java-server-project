@@ -75,14 +75,17 @@ public class ClientHandler implements Runnable {
     }
 
     public void validateMessage(String message){
+        byte[] input;
+
         try {
-            byte[] input = HexConverter.getByteArrayFromHex(message);
+            input = HexConverter.getByteArrayFromHex(message);
             new Message(input);
-            if (!CrcValidator.crcIsValid(input))
-                throw new IntegrationException("CRC invalid");
         } catch (Exception e){
             throw new IntegrationException("Message format invalid.");
         }
+
+        if (!CrcValidator.crcIsValid(input))
+            throw new IntegrationException("CRC invalid");
     }
 
 }
