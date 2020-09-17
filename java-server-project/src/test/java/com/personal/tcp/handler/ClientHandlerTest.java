@@ -4,6 +4,8 @@ import com.personal.tcp.entities.message.Message;
 import com.personal.tcp.factory.MessageServiceFactory;
 import com.personal.tcp.service.impl.TextMessageServiceImpl;
 import com.personal.tcp.util.HexConverter;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.hibernate.secure.spi.IntegrationException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +15,7 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -29,6 +32,7 @@ public class ClientHandlerTest {
 
     @Test
     public void clientHandlerMessageTest() {
+        Logger.getLogger("com.personal").setLevel(Level.OFF);
         byte[] array = HexConverter.getByteArrayFromHex(Message.getAckResponse());
 
         when(factory.createService(any())).thenReturn(service);
