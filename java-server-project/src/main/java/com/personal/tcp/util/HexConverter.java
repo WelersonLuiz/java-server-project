@@ -1,5 +1,10 @@
 package com.personal.tcp.util;
 
+import org.hibernate.secure.spi.IntegrationException;
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class HexConverter {
 
     public static String getHexFromByteArray(byte[] bytes) {
@@ -30,6 +35,9 @@ public class HexConverter {
 
     public static byte[] getByteArrayFromHex(String s) {
         s = s.replaceAll(" ", "");
+
+        if (!isHexString(s)) throw new IntegrationException("Format Invalid");
+
         int len = s.length();
         byte[] array = new byte[len / 2];
 
@@ -39,6 +47,12 @@ public class HexConverter {
         }
 
         return array;
+    }
+
+    private static boolean isHexString(String s){
+        final Pattern HEXADECIMAL_PATTERN = Pattern.compile("\\p{XDigit}+");
+        final Matcher matcher = HEXADECIMAL_PATTERN.matcher(s);
+        return matcher.matches();
     }
 
 }
